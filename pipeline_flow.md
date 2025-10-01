@@ -1,27 +1,5 @@
 # GIRAFFE Agent Pipeline Flow Chart
-
-```mermaid
-flowchart TD
-    A[🧬 Existing samples from TCGA<br/>Download cancer genome data and<br/>clinical information from TCGA] --> B[🔍 Mapping samples using GIRAFFE View tool<br/>Align genome data and detect<br/>variations across multiple sites]
-    
-    B --> C[📍 Identifying mutation locations<br/>Extract precise genomic positions<br/>where mutations occur in each sample]
-    
-    C --> D[📝 Annotating mutations using dbSNP<br/>Query dbSNP database to enrich mutations<br/>with rsID, frequency, gene info, and<br/>clinical significance]
-    
-    D --> E[🎯 Categorize mapped data<br/>Group similar mutation profiles using<br/>clustering techniques to find patterns]
-    
-    E --> F[🕸️ Create Knowledge Graph<br/>Build graph connecting cancer types<br/>with genetic variants using<br/>LLM agents GIRAFFE Agent]
-    
-    F --> G[🔬 Apply pipeline to new data<br/>Use complete pipeline on new/unseen<br/>cancer genome samples for rapid<br/>annotation and insight generation]
-    
-    style A fill:#e1f5fe
-    style B fill:#f3e5f5
-    style C fill:#e8f5e8
-    style D fill:#fff3e0
-    style E fill:#fce4ec
-    style F fill:#e0f2f1
-    style G fill:#f1f8e9
-```
+![Alt text](giraffe.png "Optional title")
 
 ## Pipeline Overview
 
