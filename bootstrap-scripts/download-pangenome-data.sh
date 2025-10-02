@@ -15,6 +15,7 @@ aws s3 cp $S3_PATH "$OUTDIR" \
   --include "hprc-v1.0-mc-grch38-minaf.0.1.dist" \
   --include "hprc-v1.0-mc-grch38-minaf.0.1.gg" \
   --include "hprc-v1.0-mc-grch38-minaf.0.1.min" \
-  --include "hprc-v1.0-mc-grch38-minaf.0.1.xg"
+  --include "hprc-v1.0-mc-grch38-minaf.0.1.xg" \ 
+  --include "hprc-v1.0-mc-grch38-minaf.0.1.gbwt"
 
 echo "✅ Download complete. Files saved in $OUTDIR"
