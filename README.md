@@ -6,6 +6,145 @@ A comprehensive knowledge graph implementation for cancer genomics analysis usin
 
 This project implements a sophisticated knowledge graph system that integrates with Amazon Bedrock to create, analyze, and visualize relationships between cancer genome data, mutations, genes, diseases, and therapeutic compounds.
 
+## Pipeline Overview
+
+The GIRAFFE Agent Pipeline is a comprehensive 6-step workflow for cancer genome analysis that combines variant detection, mapping validation, and AI-powered knowledge extraction.
+
+```mermaid
+flowchart TD
+    A[📚 Step 1: Reference Genome<br/>Standard indexed reference genome<br/>e.g., human GRCh38] --> B[🔬 Step 2: Input New Sample Sequences<br/>New sequencing data<br/>FASTQ files from cancer sample]
+    
+    B --> C[🗺️ Step 3: Map Sample Reads to Reference<br/>GIRAFFE mapper from VG toolkit<br/>Align reads to reference genome]
+    
+    C --> D[🧬 Step 4: Perform Variant Calling<br/>Identify genetic differences<br/>Output: VCF file with variants]
+    
+    D --> E[📊 Step 5: Compare Variants Against Reference<br/>Assess genetic differences<br/>Analyze mutation patterns]
+    
+    E --> F[✅ Step 6: Evaluate Accuracy Using Simulator<br/>Use simulated FASTQ with known variants<br/>Validate mapping and calling accuracy]
+    
+    F --> G[🤖 AI Knowledge Graph Integration<br/>AWS Bedrock powered analysis<br/>Entity extraction and relationship mapping]
+    
+    style A fill:#e1f5fe
+    style B fill:#f3e5f5
+    style C fill:#e8f5e9
+    style D fill:#fff3e0
+    style E fill:#fce4ec
+    style F fill:#e0f2f1
+    style G fill:#f1f8e9
+```
+
+### Pipeline Steps Detailed
+
+#### 1️⃣ **Start with Reference Genome**
+- Use a standard indexed reference genome (e.g., human GRCh38)
+- Serves as the baseline for comparison
+- Pre-indexed for efficient GIRAFFE mapping
+
+#### 2️⃣ **Input New Sample Sequences**
+- Introduce new sequencing data (FASTQ files from cancer samples)
+- Can process both tumor and normal tissue samples
+- Supports various sequencing platforms (Illumina, PacBio, ONT)
+
+#### 3️⃣ **Map Sample Reads to Reference**
+- Use **GIRAFFE mapper** from the VG toolkit
+- Align new sample reads to the reference genome
+- Graph-based alignment for improved accuracy
+- Handles complex genomic variations
+
+#### 4️⃣ **Perform Variant Calling**
+- Identify differences between sample and reference genome
+- **Output**: VCF file showing genetic variants
+- Detects SNPs, indels, structural variants
+- Annotates with dbSNP and clinical databases
+
+#### 5️⃣ **Compare Detected Variants Against Reference**
+- Assess number and types of genetic differences
+- Categorize variants by:
+  - Clinical significance (pathogenic, benign, VUS)
+  - Functional impact (missense, nonsense, frameshift)
+  - Population frequency
+- Identify cancer-specific mutations
+
+#### 6️⃣ **Evaluate Accuracy Using Simulator**
+- Use simulated sample generator with known variants
+- Produces FASTQ files with truth set
+- Validates mapping and variant calling accuracy
+- Quality control and benchmarking
+- Continuous pipeline improvement
+
+### Purpose of This Pipeline
+
+🎯 **Primary Goals:**
+
+1. **Detect Genetic Mutations** in new cancer samples
+   - Identify somatic and germline variants
+   - Discover novel cancer-associated mutations
+   - Track clonal evolution
+
+2. **Validate Pipeline Performance**
+   - Test accuracy of mapping and variant calling
+   - Benchmark against known truth sets
+   - Ensure clinical-grade quality
+
+3. **Create Training/Test Data**
+   - Generate datasets with known mutations
+   - Support machine learning model development
+   - Enable quality control checks
+
+4. **Build Knowledge Graphs**
+   - Extract entities (genes, variants, diseases)
+   - Map relationships using AWS Bedrock
+   - Enable AI-powered insights and discoveries
+
+### Workflow Integration
+
+```mermaid
+graph LR
+    subgraph Input["Input Data"]
+        REF[Reference<br/>Genome]
+        SAMPLE[Cancer<br/>Sample FASTQ]
+        SIM[Simulated<br/>FASTQ]
+    end
+    
+    subgraph VG["VG Toolkit"]
+        GIRAFFE[GIRAFFE<br/>Mapper]
+        CALL[Variant<br/>Caller]
+    end
+    
+    subgraph Output["Outputs"]
+        VCF[VCF<br/>File]
+        METRICS[Accuracy<br/>Metrics]
+    end
+    
+    subgraph KG["Knowledge Graph"]
+        BEDROCK[AWS Bedrock<br/>Claude 3.5]
+        GRAPH[Neptune<br/>Graph DB]
+    end
+    
+    REF --> GIRAFFE
+    SAMPLE --> GIRAFFE
+    SIM --> GIRAFFE
+    GIRAFFE --> CALL
+    CALL --> VCF
+    VCF --> METRICS
+    VCF --> BEDROCK
+    BEDROCK --> GRAPH
+    
+    style Input fill:#e3f2fd
+    style VG fill:#f3e5f5
+    style Output fill:#e8f5e9
+    style KG fill:#fce4ec
+```
+
+### Key Technologies
+
+- **VG Toolkit**: Graph-based genome analysis
+- **GIRAFFE**: Ultra-fast pangenome mapper
+- **AWS Bedrock**: AI-powered entity extraction
+- **Neptune**: Graph database for relationships
+- **Claude 3.5**: Natural language processing
+- **Titan Embeddings**: Semantic search capabilities
+
 ## Features
 
 ### 🧬 Core Knowledge Graph
@@ -265,5 +404,64 @@ For questions and support:
 - Check the troubleshooting section
 - Review the example scripts
 - Consult AWS Bedrock documentation
-Giraffe Agent -- Multisite polygenicity extraction from cancer genomes
+
+## References
+
+### Core Technologies
+
+#### VG Toolkit
+- **VG GitHub Repository**: [https://github.com/vgteam/vg](https://github.com/vgteam/vg)
+- **VG Documentation**: [https://github.com/vgteam/vg/wiki](https://github.com/vgteam/vg/wiki)
+- **GIRAFFE Mapper Paper**: Hickey, G., Monlong, J., Ebler, J., Novak, A.M., Eizenga, J.M., Gao, Y., Garrett, J., Aguet, F., Ardlie, K., Benedicto, M., et al. (2023). *Pangenome graph construction from genome alignments with Minigraph-Cactus*. Nature Biotechnology.
+- **VG Toolkit Paper**: Garrison, E., Sirén, J., Novak, A.M., Hickey, G., Eizenga, J.M., Dawson, E.T., Jones, W., Garg, S., Markello, C., Lin, M.F., et al. (2018). *Variation graph toolkit improves read mapping by representing genetic variation in the reference*. Nature Biotechnology, 36(9), 875-879.
+
+#### AWS Services
+- **AWS Bedrock Documentation**: [https://docs.aws.amazon.com/bedrock/](https://docs.aws.amazon.com/bedrock/)
+- **Claude 3 Model Card**: [https://www.anthropic.com/claude](https://www.anthropic.com/claude)
+- **Amazon Titan Embeddings**: [https://aws.amazon.com/bedrock/titan/](https://aws.amazon.com/bedrock/titan/)
+- **Amazon Neptune**: [https://aws.amazon.com/neptune/](https://aws.amazon.com/neptune/)
+
+### Cloud Infrastructure & Genomics
+
+#### NVIDIA Clara Parabricks on AWS
+- **NVIDIA Clara Parabricks AWS Tutorial**: [https://docs.nvidia.com/clara/parabricks/latest/tutorials/cloudguides/aws.html](https://docs.nvidia.com/clara/parabricks/latest/tutorials/cloudguides/aws.html)
+- **NVIDIA Clara Parabricks Documentation**: [https://docs.nvidia.com/clara/parabricks/](https://docs.nvidia.com/clara/parabricks/)
+- **GPU-Accelerated Genomics**: Best practices for running genomics pipelines on AWS with GPU acceleration
+
+#### Cancer Genomics Data
+- **The Cancer Genome Atlas (TCGA)**: [https://www.cancer.gov/tcga](https://www.cancer.gov/tcga)
+- **TCGA Data Portal**: [https://portal.gdc.cancer.gov/](https://portal.gdc.cancer.gov/)
+- **dbSNP Database**: [https://www.ncbi.nlm.nih.gov/snp/](https://www.ncbi.nlm.nih.gov/snp/)
+- **ClinVar**: [https://www.ncbi.nlm.nih.gov/clinvar/](https://www.ncbi.nlm.nih.gov/clinvar/)
+
+### Graph Analysis & Visualization
+
+- **NetworkX Documentation**: [https://networkx.org/documentation/stable/](https://networkx.org/documentation/stable/)
+- **Plotly Python**: [https://plotly.com/python/](https://plotly.com/python/)
+- **Cytoscape**: [https://cytoscape.org/](https://cytoscape.org/)
+- **Gephi**: [https://gephi.org/](https://gephi.org/)
+
+### Related Research
+
+- **Pangenome Graphs**: Eizenga, J.M., Novak, A.M., Sibbesen, J.A., Heumos, S., Ghaffaari, A., Hickey, G., Chang, X., Seaman, J.D., Rounthwaite, R., Ebler, J., et al. (2020). *Pangenome Graphs*. Annual Review of Genomics and Human Genetics, 21, 139-162.
+
+- **Graph Genomes in Clinical Applications**: Computational Pan-Genomics Consortium. (2018). *Computational pan-genomics: status, promises and challenges*. Briefings in Bioinformatics, 19(1), 118-135.
+
+- **Knowledge Graphs in Genomics**: Reese, J.T., Unni, D., Callahan, T.J., Cappelletti, L., Ravanmehr, V., Carbon, S., Shefchek, K.A., Good, B.M., Balhoff, J.P., Fontana, T., et al. (2021). *KG-COVID-19: a framework to produce customized knowledge graphs for COVID-19 response*. Patterns, 2(1), 100155.
+
+### Tools & Libraries
+
+- **Boto3 (AWS SDK)**: [https://boto3.amazonaws.com/v1/documentation/api/latest/index.html](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html)
+- **Pandas**: [https://pandas.pydata.org/](https://pandas.pydata.org/)
+- **Matplotlib**: [https://matplotlib.org/](https://matplotlib.org/)
+
+### Additional Resources
+
+- **VG Community**: [VG Toolkit Gitter Chat](https://gitter.im/vgteam/vg)
+- **AWS Genomics Workflows**: [https://docs.opendata.aws/genomics-workflows/](https://docs.opendata.aws/genomics-workflows/)
+- **Bioinformatics Best Practices**: [GATK Best Practices](https://gatk.broadinstitute.org/hc/en-us/sections/360007226651-Best-Practices-Workflows)
+
+---
+
+**GIRAFFE Agent** - Multisite polygenicity extraction from cancer genomes
 
