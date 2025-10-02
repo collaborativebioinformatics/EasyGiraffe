@@ -1,5 +1,5 @@
 # GIRAFFE Agent Pipeline Flow Chart
-![Alt text](giraffe.png "Optional title")
+![Alt text](giraffe2.png "Optional title")
 
 ## Pipeline Overview
 
