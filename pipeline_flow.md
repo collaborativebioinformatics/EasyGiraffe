@@ -1,7 +1,7 @@
 # GIRAFFE Agent Pipeline Flow Chart
 ![Alt text](giraffe2.png "Optional title")
 
-## Pipeline Overview
+## Application of Simulator in GIRAFFE Agent Variant Calling Workflow
 
 This flowchart represents the 6-step GIRAFFE Agent Pipeline for cancer genome analysis:
 
