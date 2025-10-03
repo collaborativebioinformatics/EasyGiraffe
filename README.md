@@ -116,6 +116,10 @@ For questions and support, create an issue on GitHub
 - **Phenome Mapper Repository**: [https://github.com/collaborativebioinformatics/Phenome-Mapper](https://github.com/collaborativebioinformatics/Phenome-Mapper)
 - **Variation Graph Toolkit Paper**: [https://www.nature.com/articles/nbt.4227](https://www.nature.com/articles/nbt.4227)
 - **VG Giraffe Paper**: [https://www.science.org/doi/10.1126/science.abg8871](https://www.science.org/doi/10.1126/science.abg8871)
+- [Name Resolution Service](https://name-resolution-sri.renci.org/docs#/)
+- [GWAS Catalog Graph](https://robokop.renci.org/explore/graphs/gwas-catalog)
+- [JaSaPaGe Paper](https://www.nature.com/articles/s41597-025-05652-y)
+- [Togows API](https://togows.org/)
 
 ### Related blogs and documentation
 - **NVIDIA - giraffe (vg giraffe + GATK)**: [https://docs.nvidia.com/clara/parabricks/4.4.0/documentation/tooldocs/man_giraffe.html](https://docs.nvidia.com/clara/parabricks/4.4.0/documentation/tooldocs/man_giraffe.html)
