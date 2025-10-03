@@ -3,7 +3,7 @@
 ## Overview
 This repository provides a simulator-based benchmarking framework for evaluating the accuracy and reproducibility of polygenic variant extraction using graph-based genome references. Built on the [VG toolkit](https://github.com/vgteam/vg?tab=readme-ov-file) and leveraging the steps outlined in the [Phenome mapper](https://github.com/collaborativebioinformatics/Phenome-Mapper), this pipeline integrates simulated FASTQ data with known variants to validate variant calling performance across diverse population structures.
 
-![GIRAFFE: I AM COOL](giraffewithgoggles.jpeg)
+![GIRAFFE: I AM COOL](giraffewithgoggles.png)
 
 ## Background
 Traditional variant calling methods depend on linear reference genomes like GRCh38, which may not adequately represent the genetic diversity of all populations. This limitation can introduce biases in variant detection, especially in cancer genome studies that require high-resolution, polygenic analysis. To overcome these limitations, graph-based representations such as the Variation Graph (VG) allow for more accurate mapping and variant extraction. This repository integrates:
