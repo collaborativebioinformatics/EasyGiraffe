@@ -1,0 +1,46 @@
+# Sample Disease Names for Testing
+# One disease name per line
+# Lines starting with # are ignored
+
+# Common Cancers
+breast cancer
+lung cancer
+colorectal cancer
+prostate cancer
+pancreatic cancer
+ovarian cancer
+melanoma
+leukemia
+lymphoma
+
+# TCGA Cancer Types
+Breast Invasive Carcinoma
+Lung Adenocarcinoma
+Colon Adenocarcinoma
+Rectal Adenocarcinoma
+Glioblastoma Multiforme
+Prostate Adenocarcinoma
+Ovarian Serous Cystadenocarcinoma
+Kidney Renal Clear Cell Carcinoma
+Thyroid Carcinoma
+Liver Hepatocellular Carcinoma
+
+# Specific Cancer Subtypes
+Triple Negative Breast Cancer
+Small Cell Lung Cancer
+Non-Small Cell Lung Cancer
+Colorectal Adenocarcinoma
+Pancreatic Ductal Adenocarcinoma
+High-Grade Serous Ovarian Cancer
+
+# Hereditary Cancer Syndromes
+Hereditary Breast and Ovarian Cancer Syndrome
+Lynch Syndrome
+Li-Fraumeni Syndrome
+Familial Adenomatous Polyposis
+
+# Other Diseases for Testing
+diabetes mellitus
+hypertension
+Alzheimer's disease
+Parkinson's disease
