@@ -4,7 +4,7 @@
 This repository provides a simulator-based benchmarking framework for evaluating the accuracy and reproducibility of polygenic variant extraction using graph-based genome references. Built on the [VG toolkit](https://github.com/vgteam/vg?tab=readme-ov-file) and leveraging the steps outlined in the [Phenome mapper](https://github.com/collaborativebioinformatics/Phenome-Mapper), this pipeline integrates simulated FASTQ data with known variants to validate variant calling performance across diverse population structures.
 
 <div align="center">
-  <img src="giraffewithgoggles.png" alt="GIRAFFE: I AM COOL" width="400">
+  <img src="giraffewithgoggles-removebg-preview.png" alt="GIRAFFE: I AM COOL" width="400">
 </div>
 
 ## How to Use It
