@@ -124,3 +124,19 @@ For questions and support, create an issue on GitHub
 ### Related blogs and documentation
 - **NVIDIA - giraffe (vg giraffe + GATK)**: [https://docs.nvidia.com/clara/parabricks/4.4.0/documentation/tooldocs/man_giraffe.html](https://docs.nvidia.com/clara/parabricks/4.4.0/documentation/tooldocs/man_giraffe.html)
 - **NVIDIA - Discover New Biological Insights with Accelerated Pangenome Alignment in NVIDIA Parabricks**: [https://developer.nvidia.com/blog/discover-new-biological-insights-with-accelerated-pangenome-alignment-in-nvidia-parabricks/](https://developer.nvidia.com/blog/discover-new-biological-insights-with-accelerated-pangenome-alignment-in-nvidia-parabricks/)
+
+
+## Acknowledgements 
+
+This project builds upon the foundational work of the VG GIRAFFE short-read mapping tool, developed by Dr. Benedict Paten's lab at the University of California, and incorporates methodologies adapted from the Phenome Mapper pipeline.
+We also integrated insights and data structures from the ROBOKOP knowledge graph, and critically, from the phased genome assemblies and pangenome graphs of human populations in Japan and Saudi Arabia, published by Kulmanov, et. al (PMCID: PMC12343856 | PMID: 40796583)
+We acknowledge the contributions of domain experts, the broader biomedical informatics community, and open-source developers whose tools, graphs, and research continue to drive innovation in genome analysis and pangenomics.
+
+
+## Contributors
+
+- Cheng-Han Chung (RENCI - Renaissance Computing Institute at UNC)
+- Yaphet Kebede (RENCI - Renaissance Computing Institute at UNC)
+- Shilpa Sundar (University of North Carolina at Chapel Hill)
+- Radu Robotin (NIH/NCI)
+- David Yuan (EMBL-EBI)
