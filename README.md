@@ -1,6 +1,4 @@
-# GIRAFFE Agent Knowledge Graph
-
-A comprehensive knowledge graph implementation for cancer genomics analysis using Amazon Bedrock and the GIRAFFE pipeline.
+# GIRAFFE Simulator Framework for Multicentric Polygenic Variant Extraction
 
 ## Overview
 
@@ -178,94 +176,60 @@ graph LR
 
 ## Installation
 
-### Prerequisites
-- Python 3.8+
-- AWS Account with Bedrock access
-- AWS CLI configured or environment variables set
+### Prerequisites for 🦒 GiraffeAgent2  
 
-### Install Dependencies
+This repository contains scripts and resources for setting up the GIRAFFE Agent pipeline for multicentric polygenic variant extraction. It includes scripts to download reference graphs, install the VG toolkit, and prepare simulated datasets with known variants for validation.   
+
+Ensure the following tools are installed on your system before running the setup scripts:
+- `bash`
+- `wget`
+- `curl`
+- `git`
+- `python3` (≥ 3.7)
+- `conda` (recommended for managing environments)
+- C++ compiler with `g++` (for VG) - follow the installation steps in the [VG repo] (https://github.com/vgteam/vg?tab=readme-ov-file)
+- `make`, `cmake`, and other build tools (for VG installation)
+- At least **100GB of free disk space** and a Unix-based environment (Linux/macOS)
+
+Install system dependencies on Ubuntu with:
+
 ```bash
-pip install -r requirements.txt
+sudo apt update && sudo apt install -y build-essential cmake git wget curl unzip
 ```
 
-### AWS Configuration
-1. Copy `.env.example` to `.env`
-2. Configure your AWS credentials:
-```bash
-export AWS_ACCESS_KEY_ID=your_access_key
-export AWS_SECRET_ACCESS_KEY=your_secret_key
-export AWS_REGION=us-east-1
+### Installation Steps
+1. Clone this repository
+```
+https://github.com/vgteam/vg?tab=readme-ov-file
+```
+Run the following scripts in order to set up the environment and data
+
+2. Download the Pangenome Reference Graph
+This script fetches the pre-built population-specific pangenome (JaSaPaGe) used as the backbone graph.
+```
+bash install_vg.sh
 ```
 
-## Quick Start
-
-### 1. Basic Knowledge Graph Creation
-```python
-from knowledge_graph import GiraffeKnowledgeGraph, create_bedrock_client
-
-# Initialize components
-bedrock_client = create_bedrock_client()
-kg = GiraffeKnowledgeGraph("My_Cancer_KG")
-
-# Add mutation data
-mutation_data = {
-    'chromosome': 'chr17',
-    'position': '41234470',
-    'gene': 'BRCA1',
-    'rsid': 'rs80357382',
-    'clinical_significance': 'Pathogenic',
-    'diseases': ['Breast Cancer', 'Ovarian Cancer']
-}
-
-variant_id = kg.add_mutation_data(mutation_data)
+3. Download Sample Mutated Genome (FASTA)
+This script downloads the validation genome(s) with known synthetic mutations. These are in FASTA format.
+```
+bash mutation-download.sh
 ```
 
-### 2. Literature-based Entity Extraction
-```python
-from knowledge_graph import GenomicsEntityExtractor
-
-extractor = GenomicsEntityExtractor(bedrock_client)
-
-abstract = """
-BRCA1 mutations are associated with hereditary breast cancer.
-PARP inhibitors target BRCA-deficient tumors effectively.
-"""
-
-entities = extractor.extract_entities_from_literature(abstract)
+4. Convert FASTA to FASTQ
+This script simulates sequencing reads by converting the sample FASTA files into FASTQ format (adds base quality scores). Required for downstream alignment.
+```
+bash install-tools.sh
 ```
 
-### 3. Visualization
-```python
-from knowledge_graph import KnowledgeGraphVisualizer
+After running the above 4 steps, you would have:
+* A validated VG environment
+* JaSaPaGe pangenome backbone graph
+* Simulated FASTQ reads with implanted variants
+* All necessary tools to begin mapping, variant calling, and evaluation
 
-visualizer = KnowledgeGraphVisualizer(kg)
 
-# Create interactive visualization
-fig = visualizer.create_interactive_plot(
-    layout='spring',
-    output_file='cancer_kg.html'
-)
-
-# Create statistics dashboard
-dashboard = visualizer.create_statistics_dashboard(
-    output_file='kg_dashboard.html'
-)
-```
-
-### 4. Complete Pipeline Example
-```bash
-cd examples
-python complete_example.py
-```
-
-This will:
-- Process sample TCGA data
-- Extract entities from literature
-- Create visualizations
-- Export to multiple formats
-- Generate summary statistics
-
-## Project Structure
+## Repository Structure
 
 ```
 GiraffeAgent2/
