@@ -2,7 +2,7 @@
 
 
 <div align="left">
-  <img src="giraffewithgoggles-removebg-preview.png" alt="GIRAFFE: I AM COOL" width="150">
+  <img src="img/giraffewithgoggles-removebg-preview.png" alt="GIRAFFE: I AM COOL" width="150">
 </div>
 
 ## Overview
@@ -58,7 +58,7 @@ bash install-tools.sh
 ```
 
 3. Get Sequence Variants related to a disease and Generate FASTQ
-This script simulates sequencing reads by converting the sample FASTA files into FASTQ format (adds base quality scores). Required for downstream alignment.
+This script simulates sequencing reads by converting the sample FASTA files into FASTQ format (adds base quality scores). Required for downstream alignment. For more information please refer [here](scripts/README.md).
 ```
 bash scripts/disease_to_variant_resolver.sh "Sickle Cell Anemia" 
 ```
@@ -99,7 +99,7 @@ Traditional variant calling methods depend on linear reference genomes like GRCh
 
 The following diagram illustrates the overall workflow followed in the GIRAFFE simulator-based validation framework:
 
-![GIRAFFE Workflow](giraffe2.png)
+![GIRAFFE Workflow](img/giraffe2.png)
 
 ## License
 
