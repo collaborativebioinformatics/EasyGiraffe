@@ -50,22 +50,17 @@ This script fetches the pre-built population-specific pangenome. We used (JaSaPa
 bash download-pangenome-data.sh
 ```
 
-2. Install the VG toolkit 
+2. Install the VG toolkit and ART simulator
 This script downloads and installs the VG toolkit for graph-based mapping, variant calling, and manipulation.
 ```
 bash install_vg.sh
+bash install-tools.sh
 ```
 
-3. Download Sample Mutated Genome (FASTA)
-This script downloads the validation genome(s) with known synthetic mutations. These are in FASTA format.
-```
-bash mutation-download.sh
-```
-
-4. Convert FASTA to FASTQ
+3. Get Sequence Variants related to a disease and Generate FASTQ
 This script simulates sequencing reads by converting the sample FASTA files into FASTQ format (adds base quality scores). Required for downstream alignment.
 ```
-bash install-tools.sh
+bash scripts/disease_to_variant_resolver.sh "Sickle Cell Anemia" 
 ```
 
 After running the above 4 steps, you would have:
@@ -102,7 +97,7 @@ Traditional variant calling methods depend on linear reference genomes like GRCh
 * Compare detected variants in the VCF against known ground truth variants from the simulator.
 * Evaluate performance metrics: precision, recall, F1-score.
 
-The following diagram illustrates the overall workflow followed in the GIRAFFEAgent2 simulator-based validation framework:
+The following diagram illustrates the overall workflow followed in the GIRAFFE simulator-based validation framework:
 
 ![GIRAFFE Workflow](giraffe2.png)
 
