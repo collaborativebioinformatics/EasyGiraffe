@@ -131,7 +131,7 @@ For questions and support, create an issue on GitHub
 This project builds upon the foundational work of the VG GIRAFFE short-read mapping tool, developed by Dr. Benedict Paten's lab at the University of California, and incorporates methodologies adapted from the Phenome Mapper pipeline.
 We also integrated insights and data structures from the ROBOKOP knowledge graph, and critically, from the phased genome assemblies and pangenome graphs of human populations in Japan and Saudi Arabia, published by Kulmanov, et. al (PMCID: PMC12343856 | PMID: 40796583)
 We acknowledge the contributions of domain experts, the broader biomedical informatics community, and open-source developers whose tools, graphs, and research continue to drive innovation in genome analysis and pangenomics.
-
+We also would like acknowledge Nvidia and AWS for providing us the plaform and support for starting this project. 
 
 ## Contributors
 
