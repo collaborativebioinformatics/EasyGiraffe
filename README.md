@@ -1,12 +1,12 @@
 # 🦒 GIRAFFE Simulator Framework for Multicentric Polygenic Variant Extraction
 
 ## Overview
-This repository provides a simulator-based benchmarking framework for evaluating the accuracy and reproducibility of polygenic variant extraction using graph-based genome references. Built on the [VG toolkit] (https://github.com/vgteam/vg?tab=readme-ov-file) and leveraging the steps outlined in the [Phenome mapper] (https://github.com/collaborativebioinformatics/Phenome-Mapper), this pipeline integrates simulated FASTQ data with known variants to validate variant calling performance across diverse population structures.
+This repository provides a simulator-based benchmarking framework for evaluating the accuracy and reproducibility of polygenic variant extraction using graph-based genome references. Built on the [VG toolkit](https://github.com/vgteam/vg?tab=readme-ov-file) and leveraging the steps outlined in the [Phenome mapper](https://github.com/collaborativebioinformatics/Phenome-Mapper), this pipeline integrates simulated FASTQ data with known variants to validate variant calling performance across diverse population structures.
 
 ## Background
 Traditional variant calling methods depend on linear reference genomes like GRCh38, which may not adequately represent the genetic diversity of all populations. This limitation can introduce biases in variant detection, especially in cancer genome studies that require high-resolution, polygenic analysis. To overcome these limitations, graph-based representations such as the Variation Graph (VG) allow for more accurate mapping and variant extraction. This repository integrates:
-* [JaSaPaGe pangenome graph by Kulmatov et al.] (https://pmc.ncbi.nlm.nih.gov/articles/PMC12343856/): A population graph built from Japanese and Saudi genomes.
-* [VG GIRAFFE] (https://www.science.org/doi/10.1126/science.abg8871): A fast and accurate mapper for read alignment against genome graphs.
+* [JaSaPaGe pangenome graph by Kulmatov et al.](https://pmc.ncbi.nlm.nih.gov/articles/PMC12343856/): A population graph built from Japanese and Saudi genomes.
+* [VG GIRAFFE](https://www.science.org/doi/10.1126/science.abg8871): A fast and accurate mapper for read alignment against genome graphs.
 * Synthetic data simulator: We developed a simulator to generate FASTQ files with known variants for benchmarking.
 
 ## Pipeline Summary and Workflow
@@ -45,7 +45,7 @@ Ensure the following tools are installed on your system before running the setup
 - `git`
 - `python3` (≥ 3.7)
 - `conda` (recommended for managing environments)
-- C++ compiler with `g++` (for VG) - follow the installation steps in the [VG repo] (https://github.com/vgteam/vg?tab=readme-ov-file)
+- C++ compiler with `g++` (for VG) - follow the installation steps in the [VG repo](https://github.com/vgteam/vg?tab=readme-ov-file)
 - `make`, `cmake`, and other build tools (for VG installation)
 - At least **100GB of free disk space** and a Unix-based environment (Linux/macOS)
 
@@ -111,10 +111,10 @@ For questions and support, create an issue on GitHub
 
 - **VG GitHub Repository**: [https://github.com/vgteam/vg](https://github.com/vgteam/vg)
 - **VG Documentation**: [https://github.com/vgteam/vg/wiki](https://github.com/vgteam/vg/wiki)
-- **Phenome Mapper Repository**: [https://github.com/collaborativebioinformatics/Phenome-Mapper] (https://github.com/collaborativebioinformatics/Phenome-Mapper)
-- **Variation Graph Toolkit Paper**: [https://www.nature.com/articles/nbt.4227] (https://www.nature.com/articles/nbt.4227)
-- **VG Giraffe Paper**: [https://www.science.org/doi/10.1126/science.abg8871] (https://www.science.org/doi/10.1126/science.abg8871)
+- **Phenome Mapper Repository**: [https://github.com/collaborativebioinformatics/Phenome-Mapper](https://github.com/collaborativebioinformatics/Phenome-Mapper)
+- **Variation Graph Toolkit Paper**: [https://www.nature.com/articles/nbt.4227](https://www.nature.com/articles/nbt.4227)
+- **VG Giraffe Paper**: [https://www.science.org/doi/10.1126/science.abg8871](https://www.science.org/doi/10.1126/science.abg8871)
 
 ### Related blogs and documentation
-- **NVIDIA - giraffe (vg giraffe + GATK)**: [https://docs.nvidia.com/clara/parabricks/4.4.0/documentation/tooldocs/man_giraffe.html] (https://docs.nvidia.com/clara/parabricks/4.4.0/documentation/tooldocs/man_giraffe.html)
-- **NVIDIA - Discover New Biological Insights with Accelerated Pangenome Alignment in NVIDIA Parabricks**: [https://developer.nvidia.com/blog/discover-new-biological-insights-with-accelerated-pangenome-alignment-in-nvidia-parabricks/] (https://developer.nvidia.com/blog/discover-new-biological-insights-with-accelerated-pangenome-alignment-in-nvidia-parabricks/)
+- **NVIDIA - giraffe (vg giraffe + GATK)**: [https://docs.nvidia.com/clara/parabricks/4.4.0/documentation/tooldocs/man_giraffe.html](https://docs.nvidia.com/clara/parabricks/4.4.0/documentation/tooldocs/man_giraffe.html)
+- **NVIDIA - Discover New Biological Insights with Accelerated Pangenome Alignment in NVIDIA Parabricks**: [https://developer.nvidia.com/blog/discover-new-biological-insights-with-accelerated-pangenome-alignment-in-nvidia-parabricks/](https://developer.nvidia.com/blog/discover-new-biological-insights-with-accelerated-pangenome-alignment-in-nvidia-parabricks/)
