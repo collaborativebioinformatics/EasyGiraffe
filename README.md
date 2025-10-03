@@ -1,8 +1,8 @@
 # GIRAFFE Simulator Framework for Multicentric Polygenic Variant Extraction
 
 
-<div align="center">
-  <img src="giraffewithgoggles-removebg-preview.png" alt="GIRAFFE: I AM COOL" width="50">
+<div align="left">
+  <img src="giraffewithgoggles-removebg-preview.png" alt="GIRAFFE: I AM COOL" width="150">
 </div>
 
 ## Overview
