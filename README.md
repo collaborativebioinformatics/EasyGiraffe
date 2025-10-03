@@ -4,7 +4,7 @@
 This repository provides a simulator-based benchmarking framework for evaluating the accuracy and reproducibility of polygenic variant extraction using graph-based genome references. Built on the [VG toolkit](https://github.com/vgteam/vg?tab=readme-ov-file) and leveraging the steps outlined in the [Phenome mapper](https://github.com/collaborativebioinformatics/Phenome-Mapper), this pipeline integrates simulated FASTQ data with known variants to validate variant calling performance across diverse population structures.
 
 <div align="center">
-  <img src="giraffewithgoggles-removebg-preview.png" alt="GIRAFFE: I AM COOL" width="400">
+  <img src="giraffewithgoggles-removebg-preview.png" alt="GIRAFFE: I AM COOL" width="50">
 </div>
 
 ## How to Use It
@@ -32,7 +32,7 @@ sudo apt update && sudo apt install -y build-essential cmake git wget curl unzip
 ### Installation Steps
 Clone this repository
 ```
-https://github.com/vgteam/vg?tab=readme-ov-file
+git clone https://github.com/collaborativebioinformatics/GiraffeAgent2.git
 ```
 
 ```
@@ -42,7 +42,7 @@ cd GiraffeAgent2/bootstrap-scripts
 Run the following scripts in order to set up the environment and data
 
 1. Download the Pangenome Reference Graph
-This script fetches the pre-built population-specific pangenome (JaSaPaGe) used as the backbone graph.
+This script fetches the pre-built population-specific pangenome. We used (JaSaPaGe) used as the backbone graph. But script download Human-pangenome files.
 ```
 bash download-pangenome-data.sh
 ```
