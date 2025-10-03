@@ -165,7 +165,247 @@ lung cancer,MONDO:0008903,lung cancer,30.2,Found
 melanoma,MONDO:0005105,melanoma,32.1,Found
 ```
 
-### 4. Running Tests
+### 4. VG Toolkit Integration (Disease → Variants → Sequence Graph)
+
+**Prerequisites**: VG toolkit and art_illumina must be installed. Run the installation scripts:
+```bash
+bash bootstrap-scripts/install_vg.sh
+bash bootstrap-scripts/install-tools.sh  # Installs art_illumina and other tools
+```
+
+#### Complete Pipeline: Disease to Variant Graph
+
+```bash
+# Step 1: Create working directory
+mkdir -p variant_graphs
+cd variant_graphs
+
+# Step 2: Get FASTA sequences for all variants of a disease
+python ../scripts/variant_resolver.py --disease "sickle cell disease" --fasta-only > sickle_cell_variants.fasta
+
+# Step 3: Convert FASTA to FASTQ using art_illumina (simulates sequencing reads)
+art_illumina -ss HS25 -i sickle_cell_variants.fasta -l 150 -f 10 -o sickle_cell_reads
+# This creates sickle_cell_reads1.fq and sickle_cell_reads2.fq (paired-end reads)
+
+# Step 4: Create a sequence graph from the FASTA sequences
+vg construct -r sickle_cell_variants.fasta -v sickle_cell_variants.vcf > sickle_cell_graph.vg
+
+# Alternative: If you don't have VCF, create graph from FASTA only
+vg construct -r sickle_cell_variants.fasta > sickle_cell_graph.vg
+
+# Step 5: Convert to other formats if needed
+vg view sickle_cell_graph.vg > sickle_cell_graph.gfa  # GFA format
+vg view -j sickle_cell_graph.vg > sickle_cell_graph.json  # JSON format
+
+# Step 6: Index the graph for alignment
+vg index -x sickle_cell_graph.xg sickle_cell_graph.vg
+vg prune sickle_cell_graph.vg > sickle_cell_pruned.vg
+vg index -g sickle_cell_gcsa.gcsa -k 16 sickle_cell_pruned.vg
+
+# Step 7: Align the simulated reads to the variant graph
+vg map -x sickle_cell_graph.xg -g sickle_cell_gcsa.gcsa -f sickle_cell_reads1.fq -f sickle_cell_reads2.fq > sickle_cell_alignments.gam
+
+# Step 8: Call variants from the alignments
+vg call sickle_cell_graph.vg sickle_cell_alignments.gam > sickle_cell_called_variants.vcf
+
+# Step 9: Visualize the graph (optional)
+vg view -d sickle_cell_graph.vg | dot -Tpng -o sickle_cell_graph.png
+```
+
+#### Automated Script Example
+
+Create a script `disease_to_graph.sh`:
+
+```bash
+#!/bin/bash
+# Usage: ./disease_to_graph.sh "disease name"
+
+DISEASE="$1"
+SAFE_NAME=$(echo "$DISEASE" | tr ' ' '_' | tr '[:upper:]' '[:lower:]')
+
+echo "Processing disease: $DISEASE"
+echo "Output prefix: $SAFE_NAME"
+
+# Create output directory
+mkdir -p "graphs/$SAFE_NAME"
+cd "graphs/$SAFE_NAME"
+
+# Step 1: Get FASTA sequences
+echo "Fetching FASTA sequences..."
+python ../../scripts/variant_resolver.py --disease "$DISEASE" --fasta-only > "${SAFE_NAME}_variants.fasta"
+
+# Check if FASTA file has content
+if [ ! -s "${SAFE_NAME}_variants.fasta" ]; then
+    echo "No variants found for $DISEASE"
+    exit 1
+fi
+
+echo "Found $(grep -c '^>' "${SAFE_NAME}_variants.fasta") variant sequences"
+
+# Step 2: Convert FASTA to FASTQ using art_illumina
+echo "Converting FASTA to FASTQ with art_illumina..."
+art_illumina -ss HS25 -i "${SAFE_NAME}_variants.fasta" -l 150 -f 10 -o "${SAFE_NAME}_reads"
+
+# Step 3: Create sequence graph
+echo "Building sequence graph..."
+vg construct -r "${SAFE_NAME}_variants.fasta" > "${SAFE_NAME}_graph.vg"
+
+# Step 4: Create indexes
+echo "Creating graph indexes..."
+vg index -x "${SAFE_NAME}_graph.xg" "${SAFE_NAME}_graph.vg"
+vg prune "${SAFE_NAME}_graph.vg" > "${SAFE_NAME}_pruned.vg"
+vg index -g "${SAFE_NAME}_gcsa.gcsa" -k 16 "${SAFE_NAME}_pruned.vg"
+
+# Step 5: Align reads to graph
+echo "Aligning reads to variant graph..."
+vg map -x "${SAFE_NAME}_graph.xg" -g "${SAFE_NAME}_gcsa.gcsa" -f "${SAFE_NAME}_reads1.fq" -f "${SAFE_NAME}_reads2.fq" > "${SAFE_NAME}_alignments.gam"
+
+# Step 6: Call variants
+echo "Calling variants from alignments..."
+vg call "${SAFE_NAME}_graph.vg" "${SAFE_NAME}_alignments.gam" > "${SAFE_NAME}_called_variants.vcf"
+
+# Step 7: Export formats
+echo "Exporting graph formats..."
+vg view "${SAFE_NAME}_graph.vg" > "${SAFE_NAME}_graph.gfa"
+vg view -j "${SAFE_NAME}_graph.vg" > "${SAFE_NAME}_graph.json"
+
+# Step 5: Generate statistics
+echo "Graph statistics:"
+vg stats -l "${SAFE_NAME}_graph.vg"
+
+echo "Complete! Files created in graphs/$SAFE_NAME/"
+echo "  - ${SAFE_NAME}_variants.fasta (input sequences)"
+echo "  - ${SAFE_NAME}_reads1.fq, ${SAFE_NAME}_reads2.fq (simulated reads)"
+echo "  - ${SAFE_NAME}_graph.vg (variation graph)"
+echo "  - ${SAFE_NAME}_graph.xg (indexed graph)"
+echo "  - ${SAFE_NAME}_alignments.gam (read alignments)"
+echo "  - ${SAFE_NAME}_called_variants.vcf (called variants)"
+echo "  - ${SAFE_NAME}_graph.gfa (GFA format)"
+echo "  - ${SAFE_NAME}_graph.json (JSON format)"
+```
+
+Make it executable and run:
+```bash
+chmod +x disease_to_graph.sh
+./disease_to_graph.sh "sickle cell disease"
+./disease_to_graph.sh "breast cancer"
+```
+
+#### art_illumina Parameters
+
+```bash
+# art_illumina options for read simulation:
+# -ss HS25: Illumina HiSeq 2500 sequencing system
+# -i: input FASTA file
+# -l 150: read length (150bp)
+# -f 10: fold coverage (10x)
+# -o: output prefix
+# -p: paired-end reads
+# -m 200: mean fragment size
+# -s 20: standard deviation of fragment size
+
+# Example with more options:
+art_illumina -ss HS25 -i variants.fasta -p -l 150 -f 20 -m 300 -s 50 -o reads_prefix
+```
+
+#### Working with the Generated Graphs
+
+```bash
+# Generate consensus paths
+vg find -x graph.xg -p > paths.txt
+
+# Extract specific paths
+vg find -x graph.xg -P path_name -K > path_sequence.fasta
+
+# Convert alignments to different formats
+vg view -a alignments.gam > alignments.json
+vg surject -x graph.xg -b alignments.gam > alignments.bam
+
+# Generate statistics
+vg stats -a alignments.gam
+vg stats -l graph.vg
+```
+
+#### Integration with GIRAFFE Pipeline
+
+```python
+# Example: Automated graph generation in Python
+import subprocess
+import os
+from scripts.variant_resolver import resolve_disease_to_variants, fetch_fasta_for_robo_variant
+
+def create_disease_variant_graph(disease_name, output_dir="graphs"):
+    """
+    Complete pipeline: disease -> variants -> FASTA -> VG graph
+    """
+    safe_name = disease_name.replace(' ', '_').lower()
+    graph_dir = os.path.join(output_dir, safe_name)
+    os.makedirs(graph_dir, exist_ok=True)
+    
+    # Get variants
+    variants = resolve_disease_to_variants(disease_name)
+    if not variants:
+        print(f"No variants found for {disease_name}")
+        return None
+    
+    # Extract FASTA sequences
+    fasta_file = os.path.join(graph_dir, f"{safe_name}_variants.fasta")
+    with open(fasta_file, 'w') as f:
+        for variant in variants:
+            robo_variants = [id for id in variant.get('equivalent_identifiers', []) 
+                           if id.startswith('ROBO_VARIANT:')]
+            for robo_variant in robo_variants:
+                fasta_seq = fetch_fasta_for_robo_variant(robo_variant)
+                if fasta_seq:
+                    f.write(fasta_seq + '\n')
+    
+    # Convert FASTA to FASTQ using art_illumina
+    reads_prefix = os.path.join(graph_dir, f"{safe_name}_reads")
+    subprocess.run([
+        'art_illumina', '-ss', 'HS25', '-i', fasta_file, 
+        '-l', '150', '-f', '10', '-o', reads_prefix
+    ], check=True)
+    
+    # Build VG graph
+    graph_file = os.path.join(graph_dir, f"{safe_name}_graph.vg")
+    subprocess.run([
+        'vg', 'construct', '-r', fasta_file, '-o', graph_file
+    ], check=True)
+    
+    # Create indexes
+    xg_file = os.path.join(graph_dir, f"{safe_name}_graph.xg")
+    subprocess.run([
+        'vg', 'index', '-x', xg_file, graph_file
+    ], check=True)
+    
+    # Align reads to graph
+    alignments_file = os.path.join(graph_dir, f"{safe_name}_alignments.gam")
+    reads1_file = f"{reads_prefix}1.fq"
+    reads2_file = f"{reads_prefix}2.fq"
+    
+    # Create GCSA index for alignment
+    pruned_file = os.path.join(graph_dir, f"{safe_name}_pruned.vg")
+    gcsa_file = os.path.join(graph_dir, f"{safe_name}_gcsa.gcsa")
+    
+    subprocess.run(['vg', 'prune', graph_file], 
+                  stdout=open(pruned_file, 'w'), check=True)
+    subprocess.run(['vg', 'index', '-g', gcsa_file, '-k', '16', pruned_file], 
+                  check=True)
+    
+    # Perform alignment
+    subprocess.run([
+        'vg', 'map', '-x', xg_file, '-g', gcsa_file, 
+        '-f', reads1_file, '-f', reads2_file
+    ], stdout=open(alignments_file, 'w'), check=True)
+    
+    return graph_file
+
+# Usage
+graph_file = create_disease_variant_graph("sickle cell disease")
+print(f"Created variant graph: {graph_file}")
+```
+
+### 5. Running Tests
 
 ```bash
 python scripts/test_disease_resolver.py
@@ -322,7 +562,8 @@ These scripts can be integrated into the GIRAFFE knowledge graph pipeline to:
 3. **Enrich knowledge graph** with MONDO identifiers
 4. **Discover disease-associated genetic variants** from GWAS data
 5. **Extract genomic sequences** with TogoWS API integration
-6. **Enable semantic queries** across disease concepts and variants
+6. **Generate variant graphs** using VG toolkit
+7. **Enable semantic queries** across disease concepts and variants
 
 ### Example Integration
 
